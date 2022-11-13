@@ -61,10 +61,10 @@ def rename_invalid_filenames(folder_path):
             # print(filename, " : ", potential_filename, '\n\n')
 
 
-def merge_related_audio_files():
-    counter = 1
-    input_folder_path = f'/Users/kaybanks/Downloads/dict_files/de_en__AppFiles/Audio_{counter:02}/'
-    output_folder_path = f'/Users/kaybanks/Downloads/dict_files/de_en__AppFiles/Image_and_Joined_Audio_{counter:02}/'
+def merge_related_audio_files(counter):
+    parent_path = '/Users/kaybanks/Downloads/dict_files/de_en__AppFiles/'
+    input_folder_path = f'{parent_path}/Audio_{counter:02}/'
+    output_folder_path = f'{parent_path}/Image_and_Joined_Audio_{counter:02}/'
     rename_invalid_filenames(input_folder_path)
 
     if not os.path.exists(output_folder_path):
@@ -89,24 +89,22 @@ def merge_related_audio_files():
         combined_question_answer = question_part + gap + answer_part
         combined_question_answer.export(output_filename, format="mp3")
 
-        # =========================================================================================================
-        # question = f'\'{os.path.join(input_folder_path, question)}\''
-        # answer = f'\'{os.path.join(input_folder_path, answer)}\''
-
-        # output_filename = f'{str(key)}--2.final_audio_file.mp3'
-        # output_filename = f'\'{os.path.join(output_folder_path, output_filename)}\''
-        # input_text_file = os.path.join(output_folder_path, "input.txt")
-        # with open(input_text_file, "w") as new_file:
-        #     new_file.write(f'file {question}\rfile {answer}')
-        #     # new_file.write(
-        #     #     f'file {question}\nfile {silent_audio_file_path}\nfile {answer}')
-        # time.sleep(0.5)
-        # command = f'ffmpeg -hide_banner -loglevel error -f concat -safe 0 -i {input_text_file} -c copy {output_filename}'
-        # os.system(command)
+# merge_related_audio_files(0)
 
 
-merge_related_audio_files()
+def execute():
+    folder_to_process = "/Users/kaybanks/Downloads/dict_files/de_en__AppFiles"
+    audio_dirs = [dir for dir in os.listdir(
+        folder_to_process) if dir.startswith("Audio_")]
+    # audio_dirs = sorted(audio_dirs)
+    folder_count = len(audio_dirs)
+    for counter in range(folder_count):
+        merge_related_audio_files(counter)
+        print(
+            f'done combining question and answer audios!--{counter} of {folder_count}\n\n')
 
+
+execute()
 
 # command = f'ffmpeg -hide_banner -loglevel error -f concat -safe 0 -i {input_text_file} -c copy {output_filename}'
 # ffmpeg -f concat -i input.txt -c copy output.mp3
@@ -116,9 +114,3 @@ merge_related_audio_files()
 
 # create silent 2 second mp3 file
 # ffmpeg -f lavfi -i anullsrc=r=44100:cl=mono -t 2 -q:a 9 -acodec libmp3lame out.mp3
-
-# =================
-# print(value)
-# print(output_filename, '\n\n')
-# continue
-# =================

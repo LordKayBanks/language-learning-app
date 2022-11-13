@@ -23,15 +23,15 @@ def group_related_image_and_audio(folder_path):
     return sorted(related_image_and_audio.items())
 
 
-# path = '/Users/kaybanks/Downloads/dict_files/de_en__Appfiles/Image_and_Joined_Audio'
+# path = '/Users/kaybanks/Downloads/dict_files/de_en__AppFiles/Image_and_Joined_Audio'
 # for x in group_related_image_and_audio(path):
 #     print(x, "\n\n")
 
 
-def create_video_from_image_and_audio():
-    counter = 1
-    input_folder_path = f'/Users/kaybanks/Downloads/dict_files/de_en__Appfiles/Image_and_Joined_Audio_{counter:02}/'
-    output_folder_path = f'/Users/kaybanks/Downloads/dict_files/de_en__AppFiles/Videos_{counter:02}/'
+def create_video_from_image_and_audio(counter):
+    parent_path = '/Users/kaybanks/Downloads/dict_files/de_en__AppFiles/'
+    input_folder_path = f'{parent_path}/Image_and_Joined_Audio_{counter:02}/'
+    output_folder_path = f'{parent_path}/Videos_{counter:02}/'
     if not os.path.exists(output_folder_path):
         os.makedirs(output_folder_path)
 
@@ -51,5 +51,16 @@ def create_video_from_image_and_audio():
         os.system(command)
 
 
-create_video_from_image_and_audio()
-# mma quick hit#
+# create_video_from_image_and_audio(0)
+
+def execute():
+    folder_to_process = "/Users/kaybanks/Downloads/dict_files/de_en__AppFiles"
+    audio_dirs = [dir for dir in os.listdir(
+        folder_to_process) if dir.startswith("Image_and_Joined_Audio_")]
+    folder_count = len(audio_dirs)
+    for counter in range(folder_count):
+        create_video_from_image_and_audio(counter)
+        print(f'done videos!--{counter} of {folder_count}\n\n')
+
+
+execute()
