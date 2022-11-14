@@ -122,8 +122,12 @@ def execute():
         folder_to_process) if dir.startswith("folder_")]
     dirs = sorted(dirs)
 
+    #  (if startingPositions=5) start processing from de_en5.json, de_en6.json,...
+    startingPositions = 0
     for counter, dir in enumerate(dirs):
-        # counter = counter + 5  #  (5=offset) starting count of the process i.e de_en5.json, de_en6.json,...
+        if counter < startingPositions:
+            continue
+
         current_json_path = f'{path_to_json_files}/{language}{counter}.json'
         previous_json_path = f'{path_to_json_files}/{language}{counter-1}.json'
         full_path = os.path.join(folder_to_process, dir)

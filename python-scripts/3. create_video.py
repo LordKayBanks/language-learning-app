@@ -55,12 +55,16 @@ def create_video_from_image_and_audio(counter):
 
 def execute():
     folder_to_process = "/Users/kaybanks/Downloads/dict_files/de_en__AppFiles"
-    audio_dirs = [dir for dir in os.listdir(
+    dirs = [dir for dir in os.listdir(
         folder_to_process) if dir.startswith("Image_and_Joined_Audio_")]
-    folder_count = len(audio_dirs)
-    for counter in range(folder_count):
+
+    #  (if startingPositions=5) start processing from Audio_05, Audio_06,...
+    startingPositions = 5
+    last_folder_number = re.findall("\d+", dirs[-1])[0]
+    last_folder_number = int(last_folder_number)+1
+    for counter in range(startingPositions, last_folder_number):
         create_video_from_image_and_audio(counter)
-        print(f'done videos!--{counter} of {folder_count}\n\n')
+        print(f'done videos!--{counter} of {last_folder_number-1}\n\n')
 
 
 execute()

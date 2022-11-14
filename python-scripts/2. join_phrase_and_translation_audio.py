@@ -61,7 +61,7 @@ def rename_invalid_filenames(folder_path):
             # print(filename, " : ", potential_filename, '\n\n')
 
 
-def merge_related_audio_files(counter):
+def join_related_audio_files(counter):
     parent_path = '/Users/kaybanks/Downloads/dict_files/de_en__AppFiles/'
     input_folder_path = f'{parent_path}/Audio_{counter:02}/'
     output_folder_path = f'{parent_path}/Image_and_Joined_Audio_{counter:02}/'
@@ -89,19 +89,23 @@ def merge_related_audio_files(counter):
         combined_question_answer = question_part + gap + answer_part
         combined_question_answer.export(output_filename, format="mp3")
 
-# merge_related_audio_files(0)
+# join_related_audio_files(0)
 
 
 def execute():
     folder_to_process = "/Users/kaybanks/Downloads/dict_files/de_en__AppFiles"
     audio_dirs = [dir for dir in os.listdir(
         folder_to_process) if dir.startswith("Audio_")]
-    # audio_dirs = sorted(audio_dirs)
-    folder_count = len(audio_dirs)
-    for counter in range(folder_count):
-        merge_related_audio_files(counter)
+    audio_dirs = sorted(audio_dirs)
+
+    #  (if startingPositions=5) start processing from Audio_05, Audio_06,...
+    startingPositions = 0
+    last_folder_number = re.findall("\d+", audio_dirs[-1])[0]
+    last_folder_number = int(last_folder_number)+1
+    for counter in range(startingPositions, last_folder_number):
+        join_related_audio_files(counter)
         print(
-            f'done combining question and answer audios!--{counter} of {folder_count}\n\n')
+            f'done combining question and answer audios!--{counter} of {last_folder_number-1}\n\n')
 
 
 execute()
